@@ -1,17 +1,20 @@
 (() => {
     // Define the first page number
-    var page = 1;
+    let page = 1;
     // Set default values
-    var empty_page = false;
-    var block_request = false;
+    let empty_page = false;
+    let block_request = false;
+    
+    const item_list = document.getElementById('image-list');
+    const item_list_element = '.image-list__item'
 
     // Start load new items after scrolling down.
     window.onscroll = () => {
         // get the document and window height value
-        var docHeight = document.body.clientWidth;
-        var winHeight = window.innerHeight;
+        const docHeight = document.body.clientHeight;
+        const winHeight = window.innerHeight;
         // set a margin
-        var margin = docHeight - winHeight - 200;
+        const margin = docHeight - winHeight - 200;
         // if window has scrolled down to the given margin, run this.
         if (window.scrollY > margin && empty_page == false && block_request == false) {
             // stop request multiple times before load content
@@ -38,10 +41,11 @@
                     // set response text to DOM parser
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(data, 'text/html');
-                    const images = doc.querySelectorAll('.image-list__item');
-
-                    for (const img of images ) {
-                        document.getElementById('image-list').append(img);
+                    const items = doc.querySelectorAll(item_list_element);
+                    
+                    // Loop through items
+                    for (const item of items) {
+                        item_list.append(item);
                     }
                 }
             });
