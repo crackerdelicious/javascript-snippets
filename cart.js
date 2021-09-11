@@ -3,7 +3,7 @@ class Cart {
     cart; // กำหนด ตัวแปลสำหรับตะกร้า
 
     /**
-     * จริงๆ จะใส่ Window.localStorage ก็ได้ แล้วแต่สถานะการ
+     * จริงๆ จะใส่ Window.localStorage ก็ได้ แล้วแต่สถานการณ์
      * 
      * @param {Window.sessionStorage} session
      */
