@@ -3,9 +3,9 @@ class Cart {
     cart; // กำหนด ตัวแปลสำหรับตะกร้า
 
     /**
-     * จริงๆ จะใส่ Window.localStorage ก็ได้ แล้วแต่สถานการณ์
+     * จริงๆ จะใส่ localStorage หรือ sessionStorage ก็ได้ แล้วแต่สถานการณ์
      * 
-     * @param {Window.sessionStorage} session
+     * @param {Storage} session
      */
     constructor(session) {
         // กำหนด session ให้กับ property
@@ -72,12 +72,13 @@ class Cart {
         // ดึง คีย์ ปัจจุบัน จากนั้นจึงเช็คว่ามี คีย์ หรือไม่ ถ้าไม่มี ก็แสดงตะกร้าเปล่า
         this.cart = JSON.parse(this.get());
         if (this.get()) {
-            // Loop ผ่าน รายการใน คีย์ _cart แล้วเอามาใส่ HTML
+            
+            // Loop ผ่าน รายการใน คีย์ _cart แล้วเอามาใส่ HTML            
             this.cart.forEach(each => {
-                item += `<li class="list-group-item">
-                <div class="row">
+                item += `<li class="list-group-item p-0">
+                <div class="row g-0 gx-2 align-items-center">
                     <div class="col-3">
-                        <img src="${each['image']}" class="img-thumbnail">
+                        <img src="${each['image']}" class="img-thumbnail border-0 p-0 my-2">
                     </div>
                     <div class="col-9">
                         <p id="${each['id']}">
@@ -90,6 +91,10 @@ class Cart {
                 </div>
             </li>`;
             });
+
+            // ใส่ปุ่ม ดำเนินการชำระเงิน
+            // item += `<a href="/shop/cart/detail/" id="place_orders" class="btn btn-primary w-100 rounded">Place Orders</a>`;
+
         } else {
             // ไม่พบคีย์ _cart ก็ใส่ตะกร้าเปล่าไป
             item += '<li class="list-group-item">Your cart is empty.</li>';
@@ -150,15 +155,3 @@ class Cart {
         this.session.removeItem(this.key);
     }
 }
-
-// ตัวอย่างการนำไปใช้งาน
-(() => {
-    const cart = new Cart(sessionStorage);
-
-    document.querySelectorAll('.cart__add').forEach(each => {
-        each.addEventListener('click', e => {
-            e.preventDefault();
-            cart.add(e.target.dataset);
-        });
-    });
-})();
